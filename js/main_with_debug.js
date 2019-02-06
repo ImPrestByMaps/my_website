@@ -1,6 +1,7 @@
 //initialize function called when the script loads
 function initialize(){
 	cities();
+	debugAjax();
 };
 
 //function to create a table with cities and their populations
@@ -133,6 +134,45 @@ function addEvents(){
     
     
 };
+
+
+
+function debugCallback(response){
+	//This creates a function that will be used as a callback function
+	$('#mydiv').append('GeoJSON data: ' + JSON.stringify(response));
+	//This appends the geoJSON data (converted into a string) to the mydiv
+	//mydata is not available outside of debugAjax, so response will be utilized as whatever parameter is entered in the functions 
+
+};
+
+function debugAjax(){
+	//creates a function that will start the ajax server connection
+	
+	var mydata;
+
+//defines the empty variable
+
+	$.ajax("data/MegaCities.GeoJSON.txt", {
+		//Initiates the ajax with the MegaCities csv file
+		dataType: "json",
+		//sets the dataTyle as GeoJSON
+		success: function(response){
+			//sets what will be sent to the callback function
+			
+			mydata=response;
+			//assigns my reponse to mydata 
+
+			debugCallback(mydata);
+			//Runs the debugcallback function with mydata as the paramater represented as response above
+
+			//deleted append lines that would not be defined as they are out of scope
+		}
+	});
+
+};
+
+
+
 
 //call the initialize function when the document has loaded
 $(document).ready(initialize);
